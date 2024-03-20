@@ -1,0 +1,21 @@
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  flex-direction: column;
+}
+
+.form-container {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.show-login {
+  opacity: 1;
+}
+
+.show-signup {
+  opacity: 0;
+}
