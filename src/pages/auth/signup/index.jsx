@@ -12,9 +12,23 @@ const Signup = () => {
   return (
     <AuthForm buttonTitle={"Signup"} title={"Signup"} handleSubmit={onSubmit}>
       <div className="flex s gap-4">
-        <TextInput title={"First Name"} placeholder="John " />
+        <TextInput
+          title={"First Name"}
+          placeholder="John "
+          value={signupData.name}
+          onChange={handleChange}
+          name={"name"}
+          error={error.name}
+        />
 
-        <TextInput title={"Last Name"} placeholder="Doe" />
+        <TextInput
+          title={"Last Name"}
+          placeholder="Doe"
+          value={signupData.lastName}
+          onChange={handleChange}
+          name={"lastName"}
+          error={error.lastName}
+        />
       </div>
 
       <TextInput

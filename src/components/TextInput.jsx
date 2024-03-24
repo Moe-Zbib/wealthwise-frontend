@@ -28,9 +28,7 @@ const TextInput = ({
     <div className="gap-1 flex flex-col">
       <div className="flex justify-between items-center">
         {title && (
-          <label
-            htmlFor={name}
-            className="text-sm font-semibold ml-1 text-white">
+          <label htmlFor={name} className="text-sm font-semibold ml-1 ">
             {title}
           </label>
         )}
@@ -43,7 +41,7 @@ const TextInput = ({
       <div
         className={`relative rounded-md ${
           error ? "border border-red-500" : "border border-accent"
-        } ${isFocused ? "border-gray-600" : ""} bg-secondary`}>
+        } ${isFocused ? "border-gray-600" : ""} bg-secondary `}>
         <input
           id={name}
           name={name}
@@ -51,7 +49,7 @@ const TextInput = ({
           onChange={onChange}
           placeholder={placeholder}
           type={showPassword ? "text" : type}
-          className={`block  w-full py-2 px-4 rounded-md placeholder-gray-500  outline-none  text-white bg-transparent`}
+          className={`block w-full py-2 px-4 rounded-md placeholder-gray-500 outline-none  bg-transparent`}
           onFocus={handleFocus}
           onBlur={handleBlur}
           aria-label={title || placeholder}

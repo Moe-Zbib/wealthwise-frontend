@@ -3,11 +3,14 @@ import Validate from "../../../utils/validations/ErrorValidate";
 import ErrorMessage from "../../../utils/validations/ErrorMessage";
 import authQueries from "../../../queries/authQueries";
 import { recommendUsername } from "./components/recommendUsername";
+import { Register } from "../../../api/utils/authApi";
 
 const SignupLogic = () => {
   const { registerMutation } = authQueries();
 
   const [error, setError] = useState({
+    name: false,
+    lastName: false,
     username: false,
     email: false,
     password: false,
@@ -52,6 +55,14 @@ const SignupLogic = () => {
       newErrors.password = ErrorMessage.passwordFormat();
     }
 
+    if (!Validate.required(signupData.name)) {
+      newErrors.name = ErrorMessage.required();
+    }
+
+    if (!Validate.required(signupData.lastName)) {
+      newErrors.lastName = ErrorMessage.required();
+    }
+
     setError(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
@@ -61,8 +72,8 @@ const SignupLogic = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    recommendUsername(signupData.username);
-    // validate();
+    validate();
+    recommendUsername(signupData);
   };
 
   return { signupData, handleChange, error, onSubmit };

@@ -11,7 +11,8 @@ const authQueries = () => {
 
   const registerMutation = useMutation({
     mutationFn: (signupData) => {
-      return axios.post(AUTH_API.REGISTER, signupData);
+      const res = axios.post(AUTH_API.REGISTER, signupData);
+      console.log(res.data);
     },
   });
 
