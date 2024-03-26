@@ -10,9 +10,16 @@ const authQueries = () => {
   });
 
   const registerMutation = useMutation({
-    mutationFn: (signupData) => {
-      const res = axios.post(AUTH_API.REGISTER, signupData);
-      console.log(res.data);
+    mutationFn: async (signupData) => {
+      try {
+        const res = await axios.post(AUTH_API.REGISTER, signupData);
+        return res.data;
+      } catch (e) {
+        return e;
+      }
+    },
+    onSuccess: (data) => {
+      console.log("User registered:", data.user);
     },
   });
 

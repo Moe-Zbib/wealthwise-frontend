@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const TextInput = ({
   placeholder = "Type here",
@@ -27,11 +29,7 @@ const TextInput = ({
   return (
     <div className="gap-1 flex flex-col">
       <div className="flex justify-between items-center">
-        {title && (
-          <label htmlFor={name} className="text-sm font-semibold ml-1 ">
-            {title}
-          </label>
-        )}
+        {title && <Label htmlFor={name}>{title}</Label>}
         {error && (
           <p className="text-xs text-red-500" id={`${name}-error`}>
             {error}
@@ -40,16 +38,16 @@ const TextInput = ({
       </div>
       <div
         className={`relative rounded-md ${
-          error ? "border border-red-500" : "border border-accent"
-        } ${isFocused ? "border-gray-600" : ""} bg-secondary `}>
-        <input
+          error ? "border border-red-500" : " "
+        }    bg-secondary `}>
+        <Input
           id={name}
           name={name}
           value={value}
           onChange={onChange}
           placeholder={placeholder}
           type={showPassword ? "text" : type}
-          className={`block w-full py-2 px-4 rounded-md placeholder-gray-500 outline-none  bg-transparent`}
+          className={`block w-full py-2 px-4 rounded-md placeholder-slate-300 outline-none  bg-background`}
           onFocus={handleFocus}
           onBlur={handleBlur}
           aria-label={title || placeholder}

@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import Validate from "../../../utils/validations/ErrorValidate";
 import ErrorMessage from "../../../utils/validations/ErrorMessage";
 import authQueries from "../../../queries/authQueries";
-import { useMutation } from "@tanstack/react-query";
-import { formToJSON } from "axios";
-import axios from "axios";
 
 const LoginLogic = () => {
   const { loginMutation } = authQueries();
@@ -45,6 +42,7 @@ const LoginLogic = () => {
       loginMutation.mutate(loginData);
     }
   };
+
   const onSubmit = (event) => {
     event.preventDefault();
     validate();

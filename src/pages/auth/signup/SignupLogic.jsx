@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Validate from "../../../utils/validations/ErrorValidate";
 import ErrorMessage from "../../../utils/validations/ErrorMessage";
 import authQueries from "../../../queries/authQueries";
-import { recommendUsername } from "./components/recommendUsername";
-import { Register } from "../../../api/utils/authApi";
+import { useQueries } from "@tanstack/react-query";
 
 const SignupLogic = () => {
   const { registerMutation } = authQueries();
 
+  const [exists, setExists] = useState([]);
   const [error, setError] = useState({
     name: false,
     lastName: false,
@@ -21,11 +21,21 @@ const SignupLogic = () => {
     password: "",
   });
   const handleChange = (event) => {
+    const newErrors = {};
+
     const { name, value } = event.target;
     setSignupData({
       ...signupData,
       [name]: value,
     });
+
+    if (name === "email") {
+      // if (Validate.emailRegex(signupData.email)) {
+      //   newErrors.email = ErrorMessage.emailRegex();
+      // }
+    }
+
+    setError(newErrors);
   };
 
   const validate = () => {
@@ -70,13 +80,17 @@ const SignupLogic = () => {
     }
   };
 
+  if (registerMutation.isError) {
+    setExists(registerMutation.error.response.data);
+    console.log(exists);
+  }
+
   const onSubmit = (event) => {
     event.preventDefault();
     validate();
-    recommendUsername(signupData);
   };
 
-  return { signupData, handleChange, error, onSubmit };
+  return { signupData, handleChange, error, onSubmit, exists };
 };
 
 export default SignupLogic;

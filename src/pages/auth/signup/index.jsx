@@ -4,13 +4,16 @@ import TextInput from "../../../components/TextInput";
 import { Link } from "react-router-dom";
 import SignupLogic from "./SignupLogic";
 import PasswordChecker from "./components/usePasswordChecker";
+import { Input } from "@/components/ui/input";
 
 const Signup = () => {
-  const { onSubmit, signupData, handleChange, error } = SignupLogic();
+  const { onSubmit, signupData, handleChange, error, exists } = SignupLogic();
   const [showPasswordCheck, setShowPasswordCheck] = useState(false);
 
   return (
     <AuthForm buttonTitle={"Signup"} title={"Signup"} handleSubmit={onSubmit}>
+      <Input type="email" placeholder="Email" />
+
       <div className="flex s gap-4">
         <TextInput
           title={"First Name"}
