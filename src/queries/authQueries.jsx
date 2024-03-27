@@ -5,7 +5,11 @@ import { AUTH_API } from "../api/endpoints/authEndpoints";
 const authQueries = () => {
   const loginMutation = useMutation({
     mutationFn: (loginData) => {
-      return axios.post(AUTH_API.LOGIN, loginData);
+      try {
+        return axios.post(AUTH_API.LOGIN, loginData);
+      } catch (err) {
+        return err;
+      }
     },
   });
 
@@ -14,8 +18,8 @@ const authQueries = () => {
       try {
         const res = await axios.post(AUTH_API.REGISTER, signupData);
         return res.data;
-      } catch (e) {
-        return e;
+      } catch (err) {
+        return err;
       }
     },
     onSuccess: (data) => {

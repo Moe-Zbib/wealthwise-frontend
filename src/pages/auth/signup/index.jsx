@@ -12,8 +12,6 @@ const Signup = () => {
 
   return (
     <AuthForm buttonTitle={"Signup"} title={"Signup"} handleSubmit={onSubmit}>
-      <Input type="email" placeholder="Email" />
-
       <div className="flex s gap-4">
         <TextInput
           title={"First Name"}

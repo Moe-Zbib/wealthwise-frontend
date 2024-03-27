@@ -82,7 +82,7 @@ const SignupLogic = () => {
 
   if (registerMutation.isError) {
     setExists(registerMutation.error.response.data);
-    console.log(exists);
+    console.log(" ERROR IS", registerMutation.error);
   }
 
   const onSubmit = (event) => {

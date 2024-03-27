@@ -43,6 +43,10 @@ const LoginLogic = () => {
     }
   };
 
+  if (loginMutation.isError) {
+    console.log(loginMutation.error.response.data);
+  }
+
   const onSubmit = (event) => {
     event.preventDefault();
     validate();
