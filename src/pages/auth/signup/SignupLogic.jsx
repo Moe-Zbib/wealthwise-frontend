@@ -1,96 +1,69 @@
 import { useState } from "react";
-import Validate from "../../../utils/validations/ErrorValidate";
-import ErrorMessage from "../../../utils/validations/ErrorMessage";
-import authQueries from "../../../queries/authQueries";
-import { useQueries } from "@tanstack/react-query";
+import { validateField } from "@/utils/validations/textValidation";
+import { useMutation } from "@tanstack/react-query";
+import { createUser } from "@/api/endpoints/authEndpoints";
 
 const SignupLogic = () => {
-  const { registerMutation } = authQueries();
-
-  const [exists, setExists] = useState([]);
-  const [error, setError] = useState({
-    name: false,
-    lastName: false,
-    username: false,
-    email: false,
-    password: false,
-  });
   const [signupData, setSignupData] = useState({
     username: "",
-    email: "",
     password: "",
+    email: "",
   });
-  const handleChange = (event) => {
-    const newErrors = {};
 
-    const { name, value } = event.target;
-    setSignupData({
-      ...signupData,
-      [name]: value,
-    });
+  const [errors, setErrors] = useState({});
 
-    if (name === "email") {
-      // if (Validate.emailRegex(signupData.email)) {
-      //   newErrors.email = ErrorMessage.emailRegex();
-      // }
-    }
+  const signUpMutation = useMutation({
+    mutationFn: (newUser) => createUser(newUser),
+    onSuccess: (data) => {
+      console.log("User Created: ", data);
+    },
 
-    setError(newErrors);
+    onError: (error) => {
+      console.log("Error: ", error);
+    },
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setSignupData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const validate = () => {
-    const hasUpperCase = /[A-Z]/.test(signupData.password);
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>_]/.test(signupData.password);
-    const isLengthValid = signupData.password.length >= 8;
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-    const newErrors = {};
+    const fieldValidation = [
+      { name: "username", rules: { required: true } },
+      {
+        name: "password",
+        rules: {
+          required: true,
+          minLength: 8,
+        },
+      },
+      { name: "email", rules: { required: true, email: true } },
+    ];
 
-    if (!Validate.required(signupData.email)) {
-      newErrors.email = ErrorMessage.required();
-    } else if (Validate.emailRegex(signupData.email)) {
-      newErrors.email = ErrorMessage.emailRegex();
-    }
+    const validations = fieldValidation.map((field) =>
+      validateField(field.name, signupData[field.name], field.rules, setErrors)
+    );
 
-    if (!Validate.required(signupData.username)) {
-      newErrors.username = ErrorMessage.required();
-    } else if (Validate.usernameLength(signupData.username)) {
-      newErrors.username = ErrorMessage.usernameLength();
-    } else if (signupData.username === "EXISTS") {
-      newErrors.username = ErrorMessage.usernameExists();
-    }
-
-    if (!Validate.required(signupData.password)) {
-      newErrors.password = ErrorMessage.required();
-    } else if (!hasUpperCase || !hasSpecialChar || !isLengthValid) {
-      newErrors.password = ErrorMessage.passwordFormat();
-    }
-
-    if (!Validate.required(signupData.name)) {
-      newErrors.name = ErrorMessage.required();
-    }
-
-    if (!Validate.required(signupData.lastName)) {
-      newErrors.lastName = ErrorMessage.required();
-    }
-
-    setError(newErrors);
-
-    if (Object.keys(newErrors).length === 0) {
-      registerMutation.mutate(signupData);
+    if (validations.every((valid) => valid)) {
+      console.log("No errors");
+      signUpMutation.mutate(signupData);
+    } else {
+      console.log(errors);
+      console.log("Validation error");
     }
   };
 
-  if (registerMutation.isError) {
-    setExists(registerMutation.error.response.data);
-    console.log(" ERROR IS", registerMutation.error);
-  }
-
-  const onSubmit = (event) => {
-    event.preventDefault();
-    validate();
+  return {
+    signupData,
+    errors,
+    handleSubmit,
+    handleChange,
+    setErrors,
+    signUpMutation,
   };
-
-  return { signupData, handleChange, error, onSubmit, exists };
 };
 
 export default SignupLogic;

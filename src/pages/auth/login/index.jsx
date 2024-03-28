@@ -1,32 +1,40 @@
-import React from "react";
-import TextInput from "../../../components/TextInput";
-import LoginLogic from "./useLoginLogic";
-import AuthForm from "../components/AuthForm";
+import FormCont from "@/components/FormCont";
+import React, { useState } from "react";
+import InputField from "@/components/TextInput";
+import Button from "@/components/Button";
+import useLoginLogic from "./useLoginLogic";
 
-const Login = () => {
-  const { loginData, handleChange, onSubmit, error } = LoginLogic();
+const index = () => {
+  const { loginData, errors, setErrors, handleChange, handleSubmit } =
+    useLoginLogic();
+
   return (
-    <AuthForm buttonTitle={"Login"} title={"Login"} handleSubmit={onSubmit}>
-      <TextInput
-        value={loginData.email}
-        onChange={handleChange}
-        title={"Email"}
-        placeholder="name@example.com"
-        name={"email"}
-        error={error.email}
-        errorType={"email"}
-      />
-      <TextInput
-        value={loginData.password}
-        onChange={handleChange}
-        name={"password"}
-        title={"Password"}
-        placeholder="••••••••"
-        type={"password"}
-        error={error.password}
-      />
-    </AuthForm>
+    <FormCont title={"Login"}>
+      <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit}>
+        <InputField
+          label="Email"
+          name="email"
+          value={loginData.email}
+          onChange={handleChange}
+          error={errors.email}
+          setErrors={setErrors}
+          rules={{ required: true, email: true }}
+          placeHolder="name@example.com"
+        />
+
+        <InputField
+          name="password"
+          label={"Password"}
+          value={loginData.password}
+          onChange={handleChange}
+          rules={{ required: true, password: true }}
+          error={errors.password}
+          setErrors={setErrors}
+        />
+        <Button title={"Login"} />
+      </form>
+    </FormCont>
   );
 };
 
-export default Login;
+export default index;

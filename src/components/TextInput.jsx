@@ -1,70 +1,48 @@
-import React, { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import React from "react";
+import { validateField } from "@/utils/validations/textValidation";
 
-const TextInput = ({
-  placeholder = "Type here",
-  onChange,
-  title,
+const InputField = ({
+  label,
   type,
-  value,
   name,
+  value,
+  onChange,
   error,
+  setErrors,
+  rules,
+  placeHolder = "Type here...",
 }) => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleFocus = () => {
-    setIsFocused(true);
-  };
-
   const handleBlur = () => {
-    setIsFocused(false);
+    validateField(name, value, rules, setErrors);
   };
 
   return (
-    <div className="gap-1 flex flex-col">
-      <div className="flex justify-between items-center">
-        {title && <Label htmlFor={name}>{title}</Label>}
-        {error && (
-          <p className="text-xs text-red-500" id={`${name}-error`}>
-            {error}
-          </p>
-        )}
+    <div>
+      <div className="flex  items-center justify-between">
+        {" "}
+        <label className="block  text-sm font-bold " htmlFor={name}>
+          {label}
+        </label>{" "}
+        <span>
+          {error && (
+            <p className="text-red-500 text-xs font-semibold">{error}</p>
+          )}
+        </span>{" "}
       </div>
-      <div
-        className={`relative rounded-md ${
-          error ? "border border-red-500" : " "
-        }    bg-secondary `}>
-        <Input
-          id={name}
-          name={name}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          type={showPassword ? "text" : type}
-          className={`block w-full py-2 px-4 rounded-md placeholder-slate-300 outline-none  bg-background`}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          aria-label={title || placeholder}
-          aria-describedby={error ? `${name}-error` : null}
-        />
-        {type === "password" && (
-          <button
-            type="button"
-            onClick={togglePasswordVisibility}
-            className="absolute inset-y-0 right-0 flex items-center justify-center py-2 px-3 text-sm text-gray-600 focus:outline-none"
-            aria-label={showPassword ? "Hide" : "Show"}>
-            {showPassword ? "Hide" : "Show"}
-          </button>
-        )}
-      </div>
+      <input
+        type={type}
+        name={name}
+        id={name}
+        value={value}
+        onChange={onChange}
+        onBlur={handleBlur}
+        placeHolder={placeHolder}
+        className={`  appearance-none border ${
+          error ? "border-red-500" : "border-gray-300 "
+        } placeholder-slate-300 rounded-md w-full py-2 px-3   text-primary leading-tight focus:outline-none focus:shadow-outline`}
+      />
     </div>
   );
 };
 
-export default TextInput;
+export default InputField;

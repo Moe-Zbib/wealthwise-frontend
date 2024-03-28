@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Login from "./login";
 import Signup from "./signup";
-
 const Auth = () => {
   const [showLogin, setShowLogin] = useState(true);
 
@@ -14,7 +13,7 @@ const Auth = () => {
       {showLogin ? <Login /> : <Signup />}
       <button onClick={toggleForm} className="text-sm">
         {showLogin
-          ? "Cont have an account? Signup!"
+          ? "Don't have an account? Signup!"
           : "Already have an account? Login!"}
       </button>
     </div>

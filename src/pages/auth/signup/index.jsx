@@ -1,73 +1,66 @@
 import React, { useState } from "react";
-import AuthForm from "../components/AuthForm";
-import TextInput from "../../../components/TextInput";
-import { Link } from "react-router-dom";
+import InputField from "@/components/TextInput";
+import Button from "@/components/Button";
+import FormCont from "@/components/FormCont";
 import SignupLogic from "./SignupLogic";
-import PasswordChecker from "./components/usePasswordChecker";
-import { Input } from "@/components/ui/input";
 
-const Signup = () => {
-  const { onSubmit, signupData, handleChange, error, exists } = SignupLogic();
-  const [showPasswordCheck, setShowPasswordCheck] = useState(false);
+const Index = () => {
+  const {
+    signupData,
+    errors,
+    handleChange,
+    handleSubmit,
+    setErrors,
+    signUpMutation,
+  } = SignupLogic();
 
   return (
-    <AuthForm buttonTitle={"Signup"} title={"Signup"} handleSubmit={onSubmit}>
-      <div className="flex s gap-4">
-        <TextInput
-          title={"First Name"}
-          placeholder="John "
-          value={signupData.name}
-          onChange={handleChange}
-          name={"name"}
-          error={error.name}
-        />
+    <FormCont title={"Signup"}>
+      <form onSubmit={handleSubmit} className="w-full gap-4 flex-col flex">
+        <div></div>
 
-        <TextInput
-          title={"Last Name"}
-          placeholder="Doe"
-          value={signupData.lastName}
+        <InputField
+          label="Username"
+          name="username"
+          value={signupData.username}
           onChange={handleChange}
-          name={"lastName"}
-          error={error.lastName}
+          error={
+            errors.username
+              ? errors.username
+              : signUpMutation.error?.response?.data?.errors?.username
+          }
+          setErrors={setErrors}
+          rules={{ required: true }}
+          placeHolder="@username"
         />
-      </div>
-
-      <TextInput
-        onChange={handleChange}
-        name={"username"}
-        value={signupData.username}
-        title={"Username"}
-        error={error.username}
-        placeholder="user"
-      />
-      <TextInput
-        onChange={handleChange}
-        name={"email"}
-        value={signupData.email}
-        title={"Email"}
-        error={error.email}
-        placeholder="name@example.coms"
-      />
-      <div
-        className="gap-1 flex flex-col"
-        onClick={() => {
-          setShowPasswordCheck(true);
-        }}>
-        <TextInput
-          title={"Password"}
+        <InputField
+          label="Email"
+          name="email"
+          value={signupData.email}
+          onChange={handleChange}
+          error={
+            errors.email
+              ? errors.email
+              : signUpMutation.error?.response?.data?.errors?.email
+          }
+          setErrors={setErrors}
+          rules={{ required: true, email: true }}
+          placeHolder="name@example.com"
+        />
+        <InputField
+          label="Password"
+          name="password"
           value={signupData.password}
-          name={"password"}
           onChange={handleChange}
-          type={"password"}
-          error={error.password}
+          error={errors.password}
+          setErrors={setErrors}
+          rules={{ required: true, minLength: 8 }}
         />
 
-        {showPasswordCheck && (
-          <PasswordChecker password={signupData.password} />
-        )}
-      </div>
-    </AuthForm>
+        <Button title={"Register"} />
+      </form>
+    </FormCont>
   );
 };
 
-export default Signup;
+export default Index;

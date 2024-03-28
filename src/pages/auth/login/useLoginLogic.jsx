@@ -1,58 +1,54 @@
-import React, { useState } from "react";
-import Validate from "../../../utils/validations/ErrorValidate";
-import ErrorMessage from "../../../utils/validations/ErrorMessage";
-import authQueries from "../../../queries/authQueries";
+import { useState } from "react";
+import { validateField } from "@/utils/validations/textValidation";
 
-const LoginLogic = () => {
-  const { loginMutation } = authQueries();
-
-  const [error, setError] = useState({
-    email: false,
-    password: false,
-  });
-
+const useLoginLogic = () => {
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setLoginData({
-      ...loginData,
+  const [errors, setErrors] = useState({});
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setLoginData((prev) => ({
+      ...prev,
       [name]: value,
-    });
+    }));
   };
 
-  const validate = () => {
-    const newErrors = {};
-    if (!Validate.required(loginData.email)) {
-      newErrors.email = ErrorMessage.required();
-    } else if (Validate.emailRegex(loginData.email)) {
-      newErrors.email = ErrorMessage.emailRegex();
-    }
+  const handleSubmit = (e) => {
+    console.log("submitted");
 
-    if (!Validate.required(loginData.password)) {
-      newErrors.password = ErrorMessage.required();
-    }
+    e.preventDefault();
+    const fieldValidation = [
+      {
+        name: "email",
+        rules: {
+          required: true,
+          email: true,
+        },
+      },
+      {
+        name: "password",
+        rules: {
+          required: true,
+          minLength: 8,
+        },
+      },
+    ];
 
-    setError(newErrors);
+    const validation = fieldValidation.map((field) =>
+      validateField(field.name, loginData[field.name], field.rules, setErrors)
+    );
 
-    if (Object.keys(newErrors).length === 0) {
-      loginMutation.mutate(loginData);
+    if (validation.every((valid) => valid)) {
+      console.log("data correct");
+    } else {
+      console.log(errors);
     }
   };
-
-  if (loginMutation.isError) {
-    console.log(loginMutation.error.response.data);
-  }
-
-  const onSubmit = (event) => {
-    event.preventDefault();
-    validate();
-  };
-
-  return { loginData, handleChange, onSubmit, error };
+  return { loginData, errors, setErrors, handleChange, handleSubmit };
 };
 
-export default LoginLogic;
+export default useLoginLogic;
