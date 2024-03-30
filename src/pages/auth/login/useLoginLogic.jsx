@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { validateField } from "@/utils/validations/textValidation";
+import { useMutation } from "@tanstack/react-query";
+import { loginUser } from "@/api/endpoints/authEndpoints";
 
 const useLoginLogic = () => {
   const [loginData, setLoginData] = useState({
@@ -8,6 +10,16 @@ const useLoginLogic = () => {
   });
 
   const [errors, setErrors] = useState({});
+
+  const loginMutation = useMutation({
+    mutationFn: (logUser) => loginUser(logUser),
+    onSuccess: (data) => {
+      console.log("User logged in", data);
+    },
+    onError: (error) => {
+      return error.response.data.error;
+    },
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,13 +54,17 @@ const useLoginLogic = () => {
       validateField(field.name, loginData[field.name], field.rules, setErrors)
     );
 
-    if (validation.every((valid) => valid)) {
-      console.log("data correct");
-    } else {
-      console.log(errors);
-    }
+    if (validation.every((valid) => valid))
+      return loginMutation.mutate(loginData);
   };
-  return { loginData, errors, setErrors, handleChange, handleSubmit };
+  return {
+    loginData,
+    errors,
+    setErrors,
+    handleChange,
+    handleSubmit,
+    loginMutation,
+  };
 };
 
 export default useLoginLogic;

@@ -48,7 +48,6 @@ const SignupLogic = () => {
     );
 
     if (validations.every((valid) => valid)) {
-      console.log("No errors");
       signUpMutation.mutate(signupData);
     } else {
       console.log(errors);

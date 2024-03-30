@@ -3,6 +3,7 @@ import InputField from "@/components/TextInput";
 import Button from "@/components/Button";
 import FormCont from "@/components/FormCont";
 import SignupLogic from "./SignupLogic";
+import ErrorMessage from "@/components/ErrorMessage";
 
 const Index = () => {
   const {
@@ -17,7 +18,7 @@ const Index = () => {
   return (
     <FormCont title={"Signup"}>
       <form onSubmit={handleSubmit} className="w-full gap-4 flex-col flex">
-        <div></div>
+        <ErrorMessage error={signUpMutation.error?.response?.data.error} />
 
         <InputField
           label="Username"
@@ -48,6 +49,7 @@ const Index = () => {
           placeHolder="name@example.com"
         />
         <InputField
+          password
           label="Password"
           name="password"
           value={signupData.password}
@@ -57,7 +59,7 @@ const Index = () => {
           rules={{ required: true, minLength: 8 }}
         />
 
-        <Button title={"Register"} />
+        <Button title={"Register"} disabled={signUpMutation.isPending} />
       </form>
     </FormCont>
   );

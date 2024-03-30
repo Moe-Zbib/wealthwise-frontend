@@ -1,14 +1,21 @@
 import React from "react";
 
 const Button = ({ title, onClick, disabled }) => {
+  const baseClasses =
+    "px-4 py-2 w-full mx-auto flex items-center justify-center rounded-md font-semibold";
+
+  const enabledClasses = "bg-primary  text-white";
+
+  const disabledClasses = "bg-gray-100 text-gray-400 cursor-not-allowed";
+
   return (
     <button
       disabled={disabled}
       onClick={onClick}
-      className={`${
-        disabled ? "bg-accent" : "bg-primary"
-      } px-4 mx-auto flex rounded-md py-2 w-full items-center justify-center`}>
-      <p className="text-background font-semibold">{title}</p>
+      className={`${baseClasses} ${
+        disabled ? disabledClasses : enabledClasses
+      }`}>
+      {title}
     </button>
   );
 };
