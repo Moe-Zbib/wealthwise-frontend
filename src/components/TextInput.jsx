@@ -17,11 +17,12 @@ const InputField = ({
   const [isTouched, setIsTouched] = useState(false);
 
   const handleBlur = () => {
+    setIsTouched(false); // Consider setting this to false on blur to reset the focus state
     validateField(name, value, rules, setErrors);
   };
 
   const handleFocus = () => {
-    setIsTouched(true);
+    setIsTouched(true); // This now doubles as indicating the field is focused
     if (error) {
       setErrors((prev) => ({
         ...prev,
@@ -65,9 +66,13 @@ const InputField = ({
           onBlur={handleBlur}
           onFocus={handleFocus}
           placeholder={placeHolder}
-          className={`appearance-none border ${
-            error ? "border-red-500" : "border-gray-300"
-          } placeholder-slate-300 rounded-md w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline`}
+          className={`appearance-none border t bg-secondary  ${
+            error
+              ? "border-red-500"
+              : isTouched
+              ? "border-primary"
+              : "border-none"
+          }  rounded-md w-full py-3 px-3 leading-tight focus:outline-none`}
         />
         {password && (
           <button

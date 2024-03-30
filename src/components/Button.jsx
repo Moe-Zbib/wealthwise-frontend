@@ -4,9 +4,9 @@ const Button = ({ title, onClick, disabled }) => {
   const baseClasses =
     "px-4 py-2 w-full mx-auto flex items-center justify-center rounded-md font-semibold";
 
-  const enabledClasses = "bg-primary  text-white";
+  const enabledClasses = "bg-primary text-white";
 
-  const disabledClasses = "bg-gray-100 text-gray-400 cursor-not-allowed";
+  const disabledClasses = "bg-gray-100 text-gray-400 ";
 
   return (
     <button

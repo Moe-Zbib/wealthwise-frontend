@@ -16,10 +16,13 @@ const Index = () => {
   } = SignupLogic();
 
   return (
-    <FormCont title={"Signup"}>
-      <form onSubmit={handleSubmit} className="w-full gap-4 flex-col flex">
-        <ErrorMessage error={signUpMutation.error?.response?.data.error} />
-
+    <FormCont
+      title={"Signup"}
+      subTitle={"Welcome lets create an account!"}
+      buttonTitle={"Register"}
+      buttonDisabled={signUpMutation.isPending}
+      buttonSubmit={handleSubmit}>
+      <div className="flex flex-col gap-2">
         <InputField
           label="Username"
           name="username"
@@ -58,9 +61,7 @@ const Index = () => {
           setErrors={setErrors}
           rules={{ required: true, minLength: 8 }}
         />
-
-        <Button title={"Register"} disabled={signUpMutation.isPending} />
-      </form>
+      </div>
     </FormCont>
   );
 };

@@ -3,8 +3,7 @@ import React, { useState } from "react";
 import InputField from "@/components/TextInput";
 import Button from "@/components/Button";
 import useLoginLogic from "./useLoginLogic";
-import ErrorMessage from "@/components/ErrorMessage";
-
+import { useNavigate } from "react-router-dom";
 const index = () => {
   const {
     loginData,
@@ -15,10 +14,17 @@ const index = () => {
     loginMutation,
   } = useLoginLogic();
 
+  const navigate = useNavigate();
+
   return (
-    <FormCont title={"Login"}>
-      <ErrorMessage error={loginMutation.error?.response?.data.error} />
-      <form className="  flex flex-col gap-4" onSubmit={handleSubmit}>
+    <FormCont
+      title={"Login"}
+      subTitle={"Good to see you back!"}
+      buttonTitle={"Login"}
+      buttonDisabled={loginMutation.isPending}
+      buttonSubmit={handleSubmit}
+      error={loginMutation.error?.response?.data.error}>
+      <div className="flex flex-col gap-2">
         <InputField
           label="Email"
           name="email"
@@ -30,17 +36,24 @@ const index = () => {
           placeHolder="name@example.com"
         />
 
-        <InputField
-          name="password"
-          label={"Password"}
-          value={loginData.password}
-          onChange={handleChange}
-          rules={{ required: true, password: true }}
-          error={errors.password}
-          setErrors={setErrors}
-        />
-        <Button title={"Login"} disabled={loginMutation.isPending} />
-      </form>
+        <div className=" flex flex-col gap-1">
+          {" "}
+          <InputField
+            name="password"
+            label={"Password"}
+            value={loginData.password}
+            onChange={handleChange}
+            rules={{ required: true, password: true }}
+            error={errors.password}
+            setErrors={setErrors}
+          />
+          <span
+            onClick={() => navigate("/auth/forgot-password")}
+            className=" w-full text-blue text-right cursor-pointer text-sm font-semibold">
+            forgot password?
+          </span>
+        </div>
+      </div>
     </FormCont>
   );
 };

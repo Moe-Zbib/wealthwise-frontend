@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import Auth from "./pages/auth";
 import Test from "./pages/Test/test";
+import ForgotPassword from "./pages/auth/forgotPassword";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,11 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Test />,
+  },
+
+  {
+    path: "/auth/forgot-password",
+    element: <ForgotPassword />,
   },
 ]);
 
