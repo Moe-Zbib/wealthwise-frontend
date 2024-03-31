@@ -21,7 +21,7 @@ const index = () => {
       title={"Login"}
       subTitle={"Good to see you back!"}
       buttonTitle={"Login"}
-      buttonDisabled={loginMutation.isPending}
+      buttonDisabled={loginMutation.isPending}  
       buttonSubmit={handleSubmit}
       error={loginMutation.error?.response?.data.error}>
       <div className="flex flex-col gap-2">

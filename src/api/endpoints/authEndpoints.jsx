@@ -7,12 +7,22 @@ export const AUTH_API = {
 };
 
 export const loginUser = async (user) => {
-  console.log("requesting...");
   const { data } = await axios.post(`${SERVER_URL}/auth/login`, user);
   return data;
 };
 
 export const createUser = async (user) => {
   const { data } = await axios.post(`${SERVER_URL}/auth/register`, user);
+  return data;
+};
+
+export const forgotPassword = async (email) => {
+  const payload = {
+    email: email,
+  };
+  const { data } = await axios.post(
+    `${SERVER_URL}/auth/forgot-password`,
+    payload
+  );
   return data;
 };

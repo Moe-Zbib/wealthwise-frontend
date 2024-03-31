@@ -2,6 +2,7 @@ import React from "react";
 import Button from "./Button";
 import Text from "./ui/Text";
 import ErrorMessage from "./ErrorMessage";
+import Cont from "./Cont";
 
 const FormCont = ({
   children,
@@ -13,7 +14,7 @@ const FormCont = ({
   error,
 }) => {
   return (
-    <div className="bg-accent p-6 rounded-xl max-w-md w-full items-center justify-center flex flex-col lg:max-w-sm shadow-lg gap-6">
+    <Cont>
       <div className="flex flex-col w-full justify-start  gap-1">
         <Text fontWeight="bold" size="xl">
           {title}
@@ -26,7 +27,7 @@ const FormCont = ({
       </form>
 
       <ErrorMessage error={error} />
-    </div>
+    </Cont>
   );
 };
 
