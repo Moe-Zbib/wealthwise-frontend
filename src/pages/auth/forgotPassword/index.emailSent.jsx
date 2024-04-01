@@ -26,7 +26,7 @@ const EmailSent = () => {
   }, []);
 
   const handleRetryClick = () => {
-    window.location.reload();
+    // window.location.reload();
     forgotPasswordMutation.mutate(email);
   };
 

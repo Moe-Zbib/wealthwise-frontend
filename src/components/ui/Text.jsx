@@ -20,6 +20,7 @@ const Text = ({
     base: "text-base",
     lg: "text-lg",
     xl: "text-3xl",
+    xl2: "text-5xl",
   }[size];
 
   const positionClass = {

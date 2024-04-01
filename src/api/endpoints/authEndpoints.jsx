@@ -19,6 +19,7 @@ export const createUser = async (user) => {
 export const forgotPassword = async (email) => {
   const payload = {
     email: email,
+    resetLink: "http://google.com",
   };
   const { data } = await axios.post(
     `${SERVER_URL}/auth/forgot-password`,
