@@ -2,8 +2,10 @@ import { useState } from "react";
 import { validateField } from "@/utils/validations/textValidation";
 import { useMutation } from "@tanstack/react-query";
 import { loginUser } from "@/api/endpoints/authEndpoints";
+import { useNavigate } from "react-router-dom";
 
 const useLoginLogic = () => {
+  const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -14,7 +16,7 @@ const useLoginLogic = () => {
   const loginMutation = useMutation({
     mutationFn: (logUser) => loginUser(logUser),
     onSuccess: (data) => {
-      console.log("User logged in", data);
+      navigate("/home");
     },
     onError: (error) => {
       return error.response.data.error;

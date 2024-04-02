@@ -4,6 +4,7 @@ import { useAuth } from "./privateRoute";
 
 const PublicRoute = () => {
   const isAuth = useAuth();
+  console.log(isAuth);
   return !isAuth ? <Outlet /> : <Navigate to="/home" />;
 };
 

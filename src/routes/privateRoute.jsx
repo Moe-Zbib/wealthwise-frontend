@@ -1,14 +1,15 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export const useAuth = () => {
-  const user = { isLoggedIn: false };
-  return user && user.isLoggedIn;
+  const isLoggedIn = Cookies.get("token");
+  return !!isLoggedIn; // Return true if token exists, false otherwise
 };
 
 const PrivateRoute = () => {
-  const isAuth = useAuth();
-  return isAuth ? <Outlet /> : <Navigate to="/" />;
+  const isAuthenticated = useAuth();
+  return isAuthenticated ? <Outlet /> : <Navigate to="/" />;
 };
 
 export default PrivateRoute;

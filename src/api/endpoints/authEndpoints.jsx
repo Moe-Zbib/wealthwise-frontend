@@ -7,7 +7,9 @@ export const AUTH_API = {
 };
 
 export const loginUser = async (user) => {
-  const { data } = await axios.post(`${SERVER_URL}/auth/login`, user);
+  const { data } = await axios.post(`${SERVER_URL}/auth/login`, user, {
+    withCredentials: true,
+  });
   return data;
 };
 
